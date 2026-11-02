@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-mode="build">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2efe5">
+    <meta name="description" content="The workshop: verified engineering projects and reusable case-study records by Onkar Tambake.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Work — Onkar Tambake">
+    <meta property="og:description" content="Project notes and engineering case studies, published when ready to share.">
+    <meta name="twitter:card" content="summary">
+    <title>Work — Onkar Tambake</title>
+    <script src="appearance-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="content.js" defer></script>
+    <script src="site-shell.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body data-page="work">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div data-site-header></div>
+    <main id="main" class="route-page route-page--work" data-page-content>
+      <header class="route-intro page-grid" id="top">
+        <div class="route-intro__copy">
+          <h1 class="page-title">The workshop.</h1>
+          <p class="page-lede">A project archive for things made, the decisions behind them, and what they taught. No placeholder projects dressed up as case studies.</p>
+        </div>
+        <p class="route-index-note">WORK / CASE STUDIES</p>
+      </header>
+      <div class="route-body">
+        <section class="archive-intro">
+          <p>When a project is ready to share, its record can include the problem, architecture, tools, implementation notes, screenshots, source, demo, and lessons learned.</p>
+          <p class="archive-note">Private, employer-owned, or uncleared work does not belong in a public portfolio.</p>
+        </section>
+        <section aria-labelledby="projects-title">
+          <div class="section-heading">
+            <h2 id="projects-title">Project log</h2>
+            <p class="section-heading__note">Public work only</p>
+          </div>
+          <div data-project-list></div>
+        </section>
+        <section class="template-fields" aria-labelledby="project-template-title">
+          <h2 id="project-template-title">A case study has room for context.</h2>
+          <ul class="field-index">
+            <li>Problem and constraints</li><li>Architecture and diagrams</li><li>Technology and implementation</li>
+            <li>Screenshots, source, or live demo</li><li>Trade-offs and lessons</li>
+          </ul>
+          <p>Each published project uses the reusable <a href="project.html">project entry route</a>; unpublished or unknown slugs remain clearly unavailable.</p>
+        </section>
+      </div>
+    </main>
+    <div data-site-footer></div>
+  </body>
+</html>

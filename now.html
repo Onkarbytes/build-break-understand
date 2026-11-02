@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-mode="understand">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2efe5">
+    <meta name="description" content="A living observatory for what Onkar Tambake is learning, building, researching, and exploring now.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Now — Onkar Tambake">
+    <meta property="og:description" content="A transparent snapshot of current work and interests.">
+    <meta name="twitter:card" content="summary">
+    <title>Now — Onkar Tambake</title>
+    <script src="appearance-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="content.js" defer></script>
+    <script src="site-shell.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body data-page="now">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div data-site-header></div>
+    <main id="main" class="route-page route-page--now" data-page-content>
+      <header class="route-intro page-grid" id="top">
+        <div class="route-intro__copy">
+          <h1 class="page-title">What has my attention?</h1>
+          <p class="page-lede">A living page should say what is happening—and leave space for the parts that have not been shared.</p>
+        </div>
+        <p class="route-index-note">NOW / THE OBSERVATORY</p>
+      </header>
+      <div class="route-body">
+        <section class="now-observation">
+          <p>Specific current activities, project names, and goals have not been supplied. This page keeps that distinction visible rather than turning a list of interests into a status report.</p>
+        </section>
+        <section aria-labelledby="now-register-title">
+          <div class="section-heading">
+            <h2 id="now-register-title">Current record</h2>
+            <p class="section-heading__note">Update only from verified, current information</p>
+          </div>
+          <div data-now-items></div>
+        </section>
+        <section class="now-interests" aria-labelledby="now-interests-title">
+          <h2 id="now-interests-title">The broader orbit</h2>
+          <p>These are supplied areas of interest, not claims about active work.</p>
+          <div data-interest-groups></div>
+        </section>
+      </div>
+    </main>
+    <div data-site-footer></div>
+  </body>
+</html>
