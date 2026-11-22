@@ -2,7 +2,11 @@
 
 ## Current site
 
-Astro pages, shared components, and layouts live in `src/`. TypeScript content schemas in `src/content.config.ts` validate Markdown from `src/content/`; profile interests and current-state copy live in `src/content/profile.ts`. Shared styles are in `src/styles/global.css`, and the early theme bootstrap plus browser interactions are in `public/scripts/`.
+Astro pages, shared components, and layouts live in `src/`. TypeScript content schemas in `src/content.config.ts` validate Markdown from `src/content/`; profile interests and current-state copy live in `src/content/profile.ts`. Shared Studio styles are in `src/styles/global.css`; the isolated Funky presentation layer is in `src/styles/funky-mode.css`. Early appearance/presentation bootstrap and browser interactions live in `public/scripts/`.
+
+The public shell keeps three independent root states: `data-presentation` selects Studio or Funky, `data-theme` selects light or dark appearance, and `data-mode` selects the Build / Break / Understand practice lens. Presentation persists under `bbu-experience-mode`; appearance persists under `onkar-appearance`. `src/scripts/experience-mode.ts` updates the presentation without changing either of the other preferences.
+
+The homepage declares the sculpture canvas and an accessible static SVG fallback in Astro. `src/scripts/funky-experience.ts` loads only when Funky is selected on that route, then imports `src/scripts/funky-scene.ts` (and Three.js) when the stage approaches the viewport. No WebGL code runs during Astro rendering, and other routes do not request the Three.js chunk.
 
 The site builds with `output: "static"` and `build.format: "file"` into `dist/`. Section routes preserve the original `.html` paths. Public collection entries generate static detail files and use clean canonical paths such as `/projects/example`; Cloudflare Pages and Astro preview resolve those clean routes. Generic legacy detail templates remain noindex unpublished states.
 
@@ -43,4 +47,4 @@ No Supabase/Cloudflare project or credentials are provisioned in the repository.
 
 ## Migration boundaries
 
-This migration changes the implementation framework and build process while retaining the approved visual identity and existing section routes. It does not add a CMS, new biographical claims, sample work, fake research findings, or a new design system. The original implementation is preserved in the Git baseline commit rather than duplicated as a second active root-level site.
+This migration changes the implementation framework and build process while retaining the approved Studio identity and existing section routes. Funky is an explicitly selected alternative presentation; it does not add new biographical claims, sample work, or research findings. The original implementation is preserved in the Git baseline commit rather than duplicated as a second active root-level site.

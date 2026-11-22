@@ -2,10 +2,12 @@ const root = document.documentElement;
 const themeToggle = document.querySelector("[data-theme-toggle]");
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
-const themeColors = {
-  light: "#f2efe5",
-  dark: "#171c1a",
-};
+function getThemeColor(theme) {
+  if (root.dataset.presentation === "funky") {
+    return theme === "dark" ? "#121018" : "#fff3dc";
+  }
+  return theme === "dark" ? "#171c1a" : "#f2efe5";
+}
 
 function resolveTheme(choice) {
   return choice === "system" ? (systemTheme.matches ? "dark" : "light") : choice;
@@ -32,7 +34,7 @@ function updateTheme(choice, { animate = true, trigger = themeToggle } = {}) {
 
   const applyTheme = () => {
     root.dataset.theme = nextTheme;
-    if (themeColor) themeColor.content = themeColors[nextTheme];
+    if (themeColor) themeColor.content = getThemeColor(nextTheme);
     updateThemeControl();
   };
 
@@ -145,6 +147,7 @@ function setMode(mode) {
   if (modeCopy) modeCopy.textContent = details.copy;
   if (navMode) navMode.textContent = `Current lens / ${mode.charAt(0).toUpperCase()}${mode.slice(1)}`;
   practiceLens?.setAttribute("data-active-mode", mode);
+  syncCuriosityActions();
 }
 
 modeButtons.forEach((button) => {
@@ -169,6 +172,7 @@ traceToggle?.addEventListener("click", () => {
       : "Follow a request through a boundary and into a system.";
   }
   if (traceLabel) traceLabel.textContent = isAlternate ? "Return to the direct path" : "Trace an alternate path";
+  syncCuriosityActions();
 });
 
 const mapNodes = [...document.querySelectorAll("[data-map-node]")];
@@ -189,6 +193,7 @@ function inspectNode(node) {
   systemFigure?.setAttribute("data-node", selection);
   mapNodes.forEach((item) => item.setAttribute("aria-pressed", String(item === node)));
   if (traceState) traceState.textContent = note;
+  syncCuriosityActions();
 }
 
 mapNodes.forEach((node) => {
@@ -199,6 +204,54 @@ mapNodes.forEach((node) => {
     inspectNode(node);
   });
 });
+
+const curiosityActions = [...document.querySelectorAll("[data-curiosity-action]")];
+const curiosityStatus = document.querySelector("[data-curiosity-status]");
+const curiosityNotes = {
+  assemble: "A model gives a question edges.",
+  expose: "A seam can reveal what the drawing leaves quiet.",
+  reorder: "An orderly pattern is one arrangement—not the only answer.",
+  trace: "A second path makes assumptions easier to notice.",
+  boundary: "A boundary is a handoff between sets of assumptions.",
+};
+
+function syncCuriosityActions() {
+  const activeMode = root.dataset.mode;
+  curiosityActions.forEach((action) => {
+    const key = action.dataset.curiosityAction;
+    const isPressed =
+      (key === "assemble" && activeMode === "build") ||
+      (key === "expose" && activeMode === "break") ||
+      (key === "reorder" && activeMode === "understand") ||
+      (key === "trace" && traceToggle?.getAttribute("aria-pressed") === "true") ||
+      (key === "boundary" && systemFigure?.getAttribute("data-node") === "boundary");
+    action.setAttribute("aria-pressed", String(isPressed));
+  });
+}
+
+curiosityActions.forEach((action) => {
+  action.addEventListener("click", () => {
+    const key = action.dataset.curiosityAction;
+    if (key === "assemble") modeButtons.find((button) => button.dataset.modeSelect === "build")?.click();
+    else if (key === "expose") modeButtons.find((button) => button.dataset.modeSelect === "break")?.click();
+    else if (key === "reorder") modeButtons.find((button) => button.dataset.modeSelect === "understand")?.click();
+    else if (key === "trace") traceToggle?.click();
+    else if (key === "boundary") {
+      const boundaryNode = mapNodes.find((node) => node.dataset.mapNode === "boundary");
+      if (boundaryNode) inspectNode(boundaryNode);
+    }
+
+    syncCuriosityActions();
+    const note = key === "trace" && traceToggle?.getAttribute("aria-pressed") !== "true"
+      ? "The direct path is restored. Compare the assumptions along it."
+      : key && curiosityNotes[key];
+    if (curiosityStatus && note) {
+      curiosityStatus.textContent = note;
+    }
+  });
+});
+
+syncCuriosityActions();
 
 const articleFilters = [...document.querySelectorAll("[data-article-filter]")];
 const articleRows = [...document.querySelectorAll("[data-article-row]")];

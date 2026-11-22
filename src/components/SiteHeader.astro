@@ -3,16 +3,9 @@ interface Props {
   activePage: string;
 }
 
+import { siteRoutes } from "../lib/site-routes";
+
 const { activePage } = Astro.props;
-const routes = [
-  { id: "home", href: "/", title: "Home", note: "The map and the starting point" },
-  { id: "about", href: "/about.html", title: "About", note: "The person behind the questions" },
-  { id: "work", href: "/work.html", title: "Work", note: "Things made and how they work" },
-  { id: "research", href: "/research.html", title: "Research", note: "Questions at the edges of systems" },
-  { id: "writing", href: "/writing.html", title: "Writing", note: "Notes, breakdowns, and discoveries" },
-  { id: "now", href: "/now.html", title: "Now", note: "What has my attention" },
-  { id: "contact", href: "/contact.html", title: "Contact", note: "Compare notes" },
-];
 ---
 
 <header class="site-header">
@@ -34,11 +27,16 @@ const routes = [
         <path d="M16.8 12.1A7.6 7.6 0 0 1 7.9 3.2a7.7 7.7 0 1 0 8.9 8.9Z"></path>
       </svg>
     </button>
+    <div class="experience-switch" role="group" aria-label="Choose experience mode">
+      <button type="button" aria-pressed="true" data-presentation-select="studio">Studio</button>
+      <button type="button" aria-pressed="false" data-presentation-select="funky">Funky</button>
+    </div>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
       <span class="menu-toggle__label" data-menu-label>Explore</span>
       <span class="menu-toggle__icon" aria-hidden="true"><span></span><span></span></span>
     </button>
   </div>
+  <span class="sr-only" aria-live="polite" data-presentation-status></span>
 </header>
 
 <dialog class="nav-dialog" id="site-nav" aria-labelledby="nav-title" data-nav-dialog>
@@ -64,7 +62,7 @@ const routes = [
         <span class="nav-dialog__mode" data-nav-mode>Current lens / Understand</span>
       </div>
       <nav class="nav-index" aria-label="Site sections">
-        {routes.map((route) => (
+        {siteRoutes.map((route) => (
           <a
             href={route.href}
             class="nav-index__link"

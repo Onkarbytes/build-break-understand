@@ -1,8 +1,11 @@
 ---
 import { getCollection } from "astro:content";
+import FunkyLivingGraphic from "../components/FunkyLivingGraphic.astro";
 import PageIntro from "../components/PageIntro.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { currentUpdates, interests } from "../content/profile";
+
+const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 const updates = (await getCollection("now", ({ data }) => data.public && data.status === "published"))
   .sort((a, b) => (b.data.publishedAt ?? b.data.date ?? 0).valueOf() - (a.data.publishedAt ?? a.data.date ?? 0).valueOf());
@@ -23,6 +26,7 @@ const updates = (await getCollection("now", ({ data }) => data.public && data.st
     <div class="route-body">
       <section class="now-observation">
         <p>Specific current activities, project names, and goals have not been supplied. This page keeps that distinction visible rather than turning a list of interests into a status report.</p>
+        <FunkyLivingGraphic id="now-record-signal" variant="signal" label="The current record has no verified activity to send." />
       </section>
       <section aria-labelledby="now-register-title">
         <div class="section-heading">
@@ -50,9 +54,15 @@ const updates = (await getCollection("now", ({ data }) => data.public && data.st
       <section class="now-interests" aria-labelledby="now-interests-title">
         <h2 id="now-interests-title">The broader orbit</h2>
         <p>These are supplied areas of interest, not claims about active work.</p>
+        <FunkyLivingGraphic
+          id="now-interest-network"
+          variant="network"
+          label="Focus an area to highlight its supplied topics."
+          items={interests.map((group) => ({ label: group.area }))}
+        />
         <div class="interest-index">
           {interests.map((group) => (
-            <section class="interest-row">
+            <section class="interest-row" id={`interest-${slugify(group.area)}`} data-interest-row={slugify(group.area)}>
               <h2>{group.area}</h2>
               <ul class="topic-list">{group.topics.map((topic) => <li>{topic}</li>)}</ul>
             </section>

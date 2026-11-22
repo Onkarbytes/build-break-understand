@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import ArchiveList from "../components/ArchiveList.astro";
+import FunkySculpture from "../components/FunkySculpture.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { interests } from "../content/profile";
 
@@ -25,29 +26,33 @@ const articles = (await getCollection("articles", ({ data }) => data.public && d
           <span>Break<span class="hero-title__period">.</span></span>
           <span class="hero-title__last">Understand<span class="hero-title__period">.</span></span>
         </h1>
-        <p class="hero__intro">I’m Onkar Tambake. I build, investigate, and document complex systems — especially where software, security, and AI meet.</p>
-        <div class="practice-lens">
-          <div class="practice-lens__heading">
-            <span>Choose a lens</span>
-            <span data-mode-indicator>UNDERSTAND / TRACE / RECORD</span>
+        <div class="hero__detail">
+          <p class="hero__intro">I’m Onkar Tambake. I build, investigate, and document complex systems — especially where software, security, and AI meet.</p>
+          <div class="practice-lens">
+            <div class="practice-lens__heading">
+              <span>Choose a lens</span>
+              <span data-mode-indicator>UNDERSTAND / TRACE / RECORD</span>
+            </div>
+            <div class="practice-switch" role="group" aria-label="Choose a practice lens">
+              <button type="button" aria-pressed="false" data-mode-select="build">Build</button>
+              <button type="button" aria-pressed="false" data-mode-select="break">Break</button>
+              <button type="button" aria-pressed="true" data-mode-select="understand">Understand</button>
+            </div>
+            <p class="practice-lens__note" aria-live="polite" data-mode-copy>A trace is only useful when you can explain what it changed.</p>
           </div>
-          <div class="practice-switch" role="group" aria-label="Choose a practice lens">
-            <button type="button" aria-pressed="false" data-mode-select="build">Build</button>
-            <button type="button" aria-pressed="false" data-mode-select="break">Break</button>
-            <button type="button" aria-pressed="true" data-mode-select="understand">Understand</button>
+          <div class="hero__actions">
+            <a class="text-link" href="/work.html">
+              Explore the work
+              <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h10M9 4.5 13.5 9 9 13.5"></path></svg>
+            </a>
+            <a class="text-link text-link--quiet" href="/about.html">A little about me</a>
           </div>
-          <p class="practice-lens__note" aria-live="polite" data-mode-copy>A trace is only useful when you can explain what it changed.</p>
-        </div>
-        <div class="hero__actions">
-          <a class="text-link" href="/work.html">
-            Explore the work
-            <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h10M9 4.5 13.5 9 9 13.5"></path></svg>
-          </a>
-          <a class="text-link text-link--quiet" href="/about.html">A little about me</a>
         </div>
       </div>
 
-      <figure class="system-figure" aria-labelledby="system-title system-caption">
+      <div class="hero__visual">
+        <FunkySculpture />
+        <figure class="system-figure" aria-labelledby="system-title system-caption" data-funky-motion data-motion-state="active">
         <div class="system-figure__heading">
           <span id="system-title">A way of looking</span>
           <span class="system-figure__index">OBSERVE / TRACE / LEARN</span>
@@ -102,7 +107,8 @@ const articles = (await getCollection("articles", ({ data }) => data.public && d
           </button>
         </figcaption>
         <p class="system-figure__state" id="system-map-state" aria-live="polite" data-trace-state>Follow a request through a boundary and into a system.</p>
-      </figure>
+        </figure>
+      </div>
 
       <div class="hero__foot">
         <p>Curiosity, made useful.</p>
@@ -112,6 +118,24 @@ const articles = (await getCollection("articles", ({ data }) => data.public && d
         </a>
       </div>
     </section>
+
+    <details class="page-grid curiosity-engine" data-curiosity-engine>
+      <summary class="curiosity-engine__summary">Five small detours</summary>
+      <div class="curiosity-engine__body">
+        <div class="curiosity-engine__intro">
+          <h2>Look closer. Change one thing.</h2>
+          <p>These tiny experiments alter the model and map—not your data. Use a button with mouse, touch, or keyboard; nothing is stored.</p>
+        </div>
+        <div class="curiosity-engine__controls" role="group" aria-label="Curiosity experiments">
+          <button type="button" data-curiosity-action="assemble" aria-pressed="false">Gather the pieces</button>
+          <button type="button" data-curiosity-action="expose" aria-pressed="false">Expose the seams</button>
+          <button type="button" data-curiosity-action="reorder" aria-pressed="true">Find another order</button>
+          <button type="button" data-curiosity-action="trace" aria-pressed="false">Trace the other route</button>
+          <button type="button" data-curiosity-action="boundary" aria-pressed="false">Question the boundary</button>
+        </div>
+        <p class="curiosity-engine__status" role="status" aria-live="polite" data-curiosity-status>Try a detour and watch the system respond.</p>
+      </div>
+    </details>
 
     <section class="section work-section" id="work" aria-labelledby="work-title">
       <div class="section-heading">

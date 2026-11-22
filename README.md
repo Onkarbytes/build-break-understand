@@ -1,6 +1,6 @@
 # Onkar Tambake — portfolio and research journal
 
-The site is built with Astro and TypeScript and generates static files for Cloudflare Pages. The Astro migration preserves the original editorial design, independent `.html` section routes, BUILD / BREAK / UNDERSTAND home experience, interactive system map, and direct sun/moon theme control.
+The site is built with Astro and TypeScript and generates static files for Cloudflare Pages. Studio Mode preserves the editorial design, independent `.html` section routes, interactive system map, and direct sun/moon appearance control. A separate, persistent Funky Mode adds an expressive presentation and a client-loaded procedural 3D sculpture; its choice is independent from light/dark appearance and the Build / Break / Understand practice lens.
 
 ## Requirements and local development
 

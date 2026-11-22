@@ -1,6 +1,10 @@
 ---
 import PageIntro from "../components/PageIntro.astro";
+import FunkyLivingGraphic from "../components/FunkyLivingGraphic.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteRoutes } from "../lib/site-routes";
+
+const relatedRoutes = siteRoutes.filter(({ id }) => id === "work" || id === "research" || id === "writing");
 ---
 
 <BaseLayout
@@ -23,8 +27,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <h2>Contact route</h2>
           <p>A public email address and verified profile links were not included in the supplied information. No address or account has been guessed.</p>
         </div>
+        <FunkyLivingGraphic id="contact-signal" variant="signal" label="No verified destination has been supplied." />
       </section>
       <p class="contact-followup">When a verified destination is available, this page can link directly to it—without an unmonitored form or a fake submission flow.</p>
+      <FunkyLivingGraphic
+        id="contact-threads"
+        variant="routes"
+        label="Continue through a real site section."
+        items={relatedRoutes.map(({ title, href, note }) => ({ label: title, href, note }))}
+      />
     </div>
   </main>
 </BaseLayout>

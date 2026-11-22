@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import ArchiveList from "../components/ArchiveList.astro";
 import EmptyState from "../components/EmptyState.astro";
+import FunkyLivingGraphic from "../components/FunkyLivingGraphic.astro";
 import PageIntro from "../components/PageIntro.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
@@ -10,6 +11,13 @@ const articles = (await getCollection("articles", ({ data }) => data.public && d
 const categories = [...new Set(articles.map(({ data }) => data.category).filter((value): value is string => Boolean(value)))].sort();
 const tags = [...new Set(articles.flatMap(({ data }) => data.tags))].sort();
 const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const articleFeatures = [
+  "Categories and tags",
+  "Calculated reading time",
+  "Linked contents",
+  "Code and figures",
+  "References and related entries",
+];
 ---
 
 <BaseLayout
@@ -68,6 +76,14 @@ const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-
       <aside class="journal-format">
         <h2>Built for reading.</h2>
         <p>Article entries support categories, tags, calculated reading time, a linked contents list, long-form sections, code blocks with syntax accents, figures, references, and related articles.</p>
+        <FunkyLivingGraphic id="journal-spread" variant="book" label="An empty journal spread; no writing has been published yet." />
+        <ul class="field-index field-index--studio">{articleFeatures.map((feature) => <li>{feature}</li>)}</ul>
+        <FunkyLivingGraphic
+          id="journal-format-fields"
+          variant="carousel"
+          label="Available features in the article format."
+          items={articleFeatures.map((label) => ({ label }))}
+        />
         <p>The <a href="/article.html">legacy article detail route</a> remains available; published articles use clean static URLs.</p>
       </aside>
     </div>

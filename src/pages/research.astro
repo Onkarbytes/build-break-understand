@@ -2,9 +2,19 @@
 import { getCollection } from "astro:content";
 import ArchiveList from "../components/ArchiveList.astro";
 import EmptyState from "../components/EmptyState.astro";
+import FunkyLivingGraphic from "../components/FunkyLivingGraphic.astro";
 import PageIntro from "../components/PageIntro.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { interests } from "../content/profile";
+
+const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const investigationFields = [
+  "Question, scope, and status",
+  "Methodology and technical detail",
+  "Diagrams or code with context",
+  "Findings, limitations, and conclusion",
+  "References",
+];
 
 const investigations = (await getCollection(
   "investigations",
@@ -39,9 +49,15 @@ const experiments = (await getCollection(
           <h2 id="interest-title">Areas of interest</h2>
           <p class="section-heading__note">Not findings or claims of completed work</p>
         </div>
+        <FunkyLivingGraphic
+          id="research-interest-network"
+          variant="network"
+          label="Focus an area to highlight its supplied topics."
+          items={interests.map((group) => ({ label: group.area }))}
+        />
         <div class="interest-index">
           {interests.map((group) => (
-            <section class="interest-row">
+            <section class="interest-row" id={`interest-${slugify(group.area)}`} data-interest-row={slugify(group.area)}>
               <h2>{group.area}</h2>
               <ul class="topic-list">{group.topics.map((topic) => <li>{topic}</li>)}</ul>
             </section>
@@ -80,10 +96,13 @@ const experiments = (await getCollection(
       </section>
       <section class="template-fields" aria-labelledby="investigation-template-title">
         <h2 id="investigation-template-title">A traceable record.</h2>
-        <ul class="field-index">
-          <li>Question, scope, and status</li><li>Methodology and technical detail</li>
-          <li>Diagrams or code with context</li><li>Findings, limitations, and conclusion</li><li>References</li>
-        </ul>
+        <ul class="field-index field-index--studio">{investigationFields.map((field) => <li>{field}</li>)}</ul>
+        <FunkyLivingGraphic
+          id="investigation-record-fields"
+          variant="carousel"
+          label="Fields that make an investigation traceable."
+          items={investigationFields.map((label) => ({ label }))}
+        />
         <p>Interests remain separate from work in progress and published conclusions.</p>
       </section>
     </div>

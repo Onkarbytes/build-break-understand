@@ -2,11 +2,19 @@
 import { getCollection } from "astro:content";
 import ArchiveList from "../components/ArchiveList.astro";
 import EmptyState from "../components/EmptyState.astro";
+import FunkyLivingGraphic from "../components/FunkyLivingGraphic.astro";
 import PageIntro from "../components/PageIntro.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const projects = (await getCollection("projects", ({ data }) => data.public && data.status === "published"))
   .sort((a, b) => (b.data.publishedAt ?? b.data.date ?? 0).valueOf() - (a.data.publishedAt ?? a.data.date ?? 0).valueOf());
+const projectFields = [
+  "Problem and constraints",
+  "Architecture and diagrams",
+  "Technology and implementation",
+  "Screenshots, source, or live demo",
+  "Trade-offs and lessons",
+];
 ---
 
 <BaseLayout
@@ -44,10 +52,13 @@ const projects = (await getCollection("projects", ({ data }) => data.public && d
       </section>
       <section class="template-fields" aria-labelledby="project-template-title">
         <h2 id="project-template-title">A case study has room for context.</h2>
-        <ul class="field-index">
-          <li>Problem and constraints</li><li>Architecture and diagrams</li><li>Technology and implementation</li>
-          <li>Screenshots, source, or live demo</li><li>Trade-offs and lessons</li>
-        </ul>
+        <ul class="field-index field-index--studio">{projectFields.map((field) => <li>{field}</li>)}</ul>
+        <FunkyLivingGraphic
+          id="case-study-fields"
+          variant="carousel"
+          label="Case study fields, shown as a rotating record."
+          items={projectFields.map((label) => ({ label }))}
+        />
         <p>Published records use static project pages. The legacy <a href="/project.html">project entry route</a> remains available for old links.</p>
       </section>
     </div>

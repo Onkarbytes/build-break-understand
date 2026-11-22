@@ -1,0 +1,56 @@
+<figure class="funky-sculpture" aria-labelledby="funky-sculpture-title">
+  <div class="funky-sculpture__stage" data-funky-scene data-webgl="fallback">
+    <div class="funky-sculpture__readout" aria-hidden="true">
+      <span>BBU / CONFIGURATION STUDY</span>
+      <span>12 MODULES / 3 STATES</span>
+    </div>
+    <canvas class="funky-sculpture__canvas" data-funky-canvas aria-hidden="true"></canvas>
+    <svg
+      class="funky-sculpture__fallback"
+      viewBox="0 0 420 340"
+      role="img"
+      aria-labelledby="funky-fallback-title funky-fallback-description"
+    >
+      <title id="funky-fallback-title">Diagrammatic preview of the BBU modular assembly</title>
+      <desc id="funky-fallback-description">Twelve hollow hexagonal modules connect around a faceted core.</desc>
+      <g class="funky-sculpture__orbit">
+        <ellipse cx="210" cy="170" rx="151" ry="64" transform="rotate(-28 210 170)"></ellipse>
+        <ellipse cx="210" cy="170" rx="151" ry="64" transform="rotate(32 210 170)"></ellipse>
+        <ellipse cx="210" cy="170" rx="151" ry="64" transform="rotate(90 210 170)"></ellipse>
+      </g>
+      <g class="funky-sculpture__links">
+        <path d="m210 170 0-107m0 107 53-92m-53 92 92-53m-92 53 107 0m-107 0 92 53m-92-53 53 92m-53-92 0 107m0-107-53 92m53-92-92 53m92-53-107 0m107 0-92-53m92 53-53-92"></path>
+      </g>
+      <defs>
+        <path
+          id="funky-module"
+          fill-rule="evenodd"
+          d="M-17-10 0-20 17-10V10L0 20-17 10ZM-7-4 0-8 7-4V4L0 8-7 4Z"
+        ></path>
+      </defs>
+      <g class="funky-sculpture__pieces">
+        <use href="#funky-module" transform="translate(210 63)"></use>
+        <use href="#funky-module" transform="translate(263 78)"></use>
+        <use href="#funky-module" transform="translate(302 117)"></use>
+        <use href="#funky-module" transform="translate(317 170)"></use>
+        <use href="#funky-module" transform="translate(302 223)"></use>
+        <use href="#funky-module" transform="translate(263 262)"></use>
+        <use href="#funky-module" transform="translate(210 277)"></use>
+        <use href="#funky-module" transform="translate(157 262)"></use>
+        <use href="#funky-module" transform="translate(118 223)"></use>
+        <use href="#funky-module" transform="translate(103 170)"></use>
+        <use href="#funky-module" transform="translate(118 117)"></use>
+        <use href="#funky-module" transform="translate(157 78)"></use>
+      </g>
+      <circle class="funky-sculpture__core" cx="210" cy="170" r="13"></circle>
+    </svg>
+    <span class="funky-sculpture__stamp" aria-hidden="true">Form follows the question</span>
+  </div>
+  <figcaption class="funky-sculpture__caption">
+    <h2 id="funky-sculpture-title">A system, in three states.</h2>
+    <p>Move a pointer to tilt the model. Use the practice lenses to assemble, separate, or reorganise its parts.</p>
+    <p class="funky-sculpture__status" role="status" aria-live="polite" data-funky-scene-status>
+      Select Funky Mode to load the interactive 3D model.
+    </p>
+  </figcaption>
+</figure>

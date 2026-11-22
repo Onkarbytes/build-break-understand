@@ -2,6 +2,7 @@
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import "../styles/global.css";
+import "../styles/funky-mode.css";
 
 type ThemeMode = "build" | "break" | "understand";
 
@@ -39,7 +40,7 @@ const socialImage = image
 ---
 
 <!doctype html>
-<html lang="en" data-mode={mode}>
+<html lang="en" data-mode={mode} data-presentation="studio">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -72,5 +73,8 @@ const socialImage = image
     <slot />
     <SiteFooter />
     <script is:inline src="/scripts/site-interactions.js"></script>
+    <script>
+      import "../scripts/experience-mode";
+    </script>
   </body>
 </html>

@@ -28,6 +28,7 @@
     "marked": "^18.1.2",
     "sanitize-html": "^2.18.1",
     "shiki": "^4.6.0",
+    "three": "^0.187.0",
     "yaml": "^2.9.1"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "@astrojs/sitemap": "^3.7.4",
     "@cloudflare/workers-types": "^5.20261102.1",
     "@types/sanitize-html": "^2.16.2",
+    "@types/three": "^0.187.0",
     "typescript": "^6.0.3",
     "vite": "^8.3.5",
     "wrangler": "^4.156.1"

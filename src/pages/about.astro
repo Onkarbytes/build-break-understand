@@ -1,7 +1,10 @@
 ---
 import PageIntro from "../components/PageIntro.astro";
+import FunkyLivingGraphic from "../components/FunkyLivingGraphic.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { interests } from "../content/profile";
+
+const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 ---
 
 <BaseLayout
@@ -23,6 +26,7 @@ import { interests } from "../content/profile";
           <p>I’m Onkar Tambake. The information available for this site establishes my interests in security engineering, artificial intelligence, software architecture, and technical experimentation.</p>
           <p>I don’t see building and investigation as separate practices. Making a system is one way to learn how it behaves; probing its edges is another. This is a place for the work and explanations that can be shared responsibly.</p>
           <p>Specific experience and credentials are intentionally not listed until they can be verified and described accurately.</p>
+          <FunkyLivingGraphic id="about-wordform" variant="wordform" label="Build. Break. Understand. The phrase that guides the work." />
         </div>
       </section>
       <section class="profile-record" aria-labelledby="profile-title">
@@ -37,9 +41,15 @@ import { interests } from "../content/profile";
       </section>
       <section class="about-interests" aria-labelledby="about-interests-title">
         <h2 id="about-interests-title">Questions I return to</h2>
+        <FunkyLivingGraphic
+          id="about-interest-network"
+          variant="network"
+          label="Focus an area to highlight its supplied topics."
+          items={interests.map((group) => ({ label: group.area }))}
+        />
         <div class="interest-index">
           {interests.map((group) => (
-            <section class="interest-row">
+            <section class="interest-row" id={`interest-${slugify(group.area)}`} data-interest-row={slugify(group.area)}>
               <h2>{group.area}</h2>
               <ul class="topic-list">{group.topics.map((topic) => <li>{topic}</li>)}</ul>
             </section>

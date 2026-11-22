@@ -25,10 +25,10 @@ An independent engineer's record of building systems, investigating how they beh
 ## Capabilities and Constraints
 
 - Independent static routes exist for Home, About, Work, Research, Writing, Now, and Contact, with reusable project, investigation, and article detail routes.
-- The site uses a shared Astro editorial shell and validated Markdown content collections. It builds to static files; there is no CMS, runtime backend, or administrator interface.
+- The site uses a shared Astro editorial shell and validated Markdown content collections. It builds to static files; the public site has no request-time backend. The optional private publishing studio uses Supabase when configured and falls back to local Markdown otherwise.
 - No project outcomes, publications, employment history, certifications, contact details, or social profiles were supplied. Do not invent them.
-- Content is intentionally separate from presentation in `src/content/` and `src/content.config.ts`; published entries require an explicit public flag and published status. The content model and future CMS boundary are documented in `CONTENT.md`.
-- Appearance follows the operating system by default and can be toggled directly between light and night themes with one icon button; the preference persists.
+- Content is intentionally separate from presentation in `src/content/` and `src/content.config.ts`; published entries require an explicit public flag and published status. The content model and publishing/CMS security boundary are documented in `CONTENT.md`.
+- Studio is the default presentation; a separate persistent Funky presentation is available without changing the site's content or routes. Light/dark appearance still follows the operating system by default and persists independently from presentation mode and the Build / Break / Understand practice lens.
 
 ## Brand Commitments
 
