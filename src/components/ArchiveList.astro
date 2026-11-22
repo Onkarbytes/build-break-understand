@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { countMarkdownWords, formatReadingTime } from "../lib/content-utils";
+
+type Entry =
+  | CollectionEntry<"projects">
+  | CollectionEntry<"investigations">
+  | CollectionEntry<"articles">
+  | CollectionEntry<"experiments">;
+
+interface Props {
+  entries: Entry[];
+  baseHref: string;
+  includeReadingTime?: boolean;
+}
+
+const { entries, baseHref, includeReadingTime = false } = Astro.props;
+
+function readingTimeText(markdown: string) {
+  return formatReadingTime(countMarkdownWords(markdown));
+}
+
+function displayDate(date: Date) {
+  return date.toLocaleDateString("en", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+}
+---
+
+<ol class="entry-list">
+  {entries.map((entry) => {
+    const date = entry.data.publishedAt ?? entry.data.date;
+    return (
+      <li
+        class="entry-row"
+        data-article-row={includeReadingTime ? "" : undefined}
+        data-category={includeReadingTime ? (entry.data.category ?? "uncategorized").toLowerCase().replace(/[^a-z0-9]+/g, "-") : undefined}
+        data-tags={includeReadingTime ? entry.data.tags.map((tag) => tag.toLowerCase().replace(/[^a-z0-9]+/g, "-")).join(" ") : undefined}
+      >
+        <a
+          class="entry-row__link"
+          href={`${baseHref}/${entry.id}`}
+        >
+          <div class="entry-row__detail">
+            <h2>{entry.data.title}</h2>
+            <p>{entry.data.summary}</p>
+          </div>
+          <div class="entry-row__meta">
+            {entry.data.category && <span>{entry.data.category}</span>}
+            {date && <time datetime={date.toISOString()}>{displayDate(date)}</time>}
+            {entry.data.status === "in-progress" && <span class="entry-status">in progress</span>}
+            {includeReadingTime && <span>{readingTimeText(entry.body ?? "")} read</span>}
+            {includeReadingTime && entry.data.tags.length > 0 && (
+              <span class="entry-row__tags">{entry.data.tags.join(" · ")}</span>
+            )}
+          </div>
+          <span class="entry-row__arrow">{includeReadingTime ? "Read article" : "Read entry"}</span>
+        </a>
+      </li>
+    );
+  })}
+</ol>

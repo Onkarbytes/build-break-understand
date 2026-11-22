@@ -1,0 +1,74 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("projects", ({ data }) => data.public && data.status === "published");
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+const description = data.seo?.description ?? data.summary;
+const publishedAt = data.publishedAt ?? data.date;
+---
+
+<BaseLayout
+  title={`${data.title} — Work — Onkar Tambake`}
+  description={description}
+  activePage="work"
+  mode="build"
+  ogType="article"
+  image={data.seo?.image}
+  canonicalPath={`/projects/${entry.id}`}
+>
+  <main id="main" class="route-page route-page--detail">
+    <header class="detail-intro page-grid">
+      <div>
+        <h1 class="page-title">{data.title}</h1>
+        <p class="page-lede">{data.summary}</p>
+        <a class="text-link" href="/work.html">Back to the workshop</a>
+      </div>
+    </header>
+    <dl class="detail-meta">
+      {data.role && <><dt>Role</dt><dd>{data.role}</dd></>}
+      {data.stack.length > 0 && <><dt>Technology</dt><dd>{data.stack.join(" · ")}</dd></>}
+      {publishedAt && <><dt>Published</dt><dd><time datetime={publishedAt.toISOString()}>{publishedAt.toLocaleDateString("en", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}</time></dd></>}
+    </dl>
+    {data.architecture && (
+      <section class="detail-section">
+        <h2>Architecture</h2>
+        <p>{data.architecture}</p>
+      </section>
+    )}
+    {data.sections.map((section) => (
+      <section class="detail-section">
+        <h2>{section.title}</h2>
+        <p>{section.body}</p>
+      </section>
+    ))}
+    {data.screenshots.map((image) => (
+      <figure class="detail-figure">
+        <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+        {image.caption && <figcaption>{image.caption}</figcaption>}
+      </figure>
+    ))}
+    <article class="article-body detail-section">
+      <Content />
+    </article>
+    {data.lessons.length > 0 && (
+      <section class="detail-section">
+        <h2>Lessons learned</h2>
+        <ul class="detail-list">{data.lessons.map((lesson) => <li>{lesson}</li>)}</ul>
+      </section>
+    )}
+    {(data.sourceCodeUrl || data.demoUrl) && (
+      <nav class="detail-links" aria-label="Project resources">
+        {data.sourceCodeUrl && <a class="text-link" href={data.sourceCodeUrl} target="_blank" rel="noopener noreferrer">Source code</a>}
+        {data.demoUrl && <a class="text-link" href={data.demoUrl} target="_blank" rel="noopener noreferrer">Live demonstration</a>}
+      </nav>
+    )}
+    {data.tags.length > 0 && <ul class="tag-list" aria-label="Project tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>}
+  </main>
+</BaseLayout>

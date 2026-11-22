@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import PageIntro from "../components/PageIntro.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { currentUpdates, interests } from "../content/profile";
+
+const updates = (await getCollection("now", ({ data }) => data.public && data.status === "published"))
+  .sort((a, b) => (b.data.publishedAt ?? b.data.date ?? 0).valueOf() - (a.data.publishedAt ?? a.data.date ?? 0).valueOf());
+---
+
+<BaseLayout
+  title="Now — Onkar Tambake"
+  description="A living observatory for what Onkar Tambake is learning, building, researching, and exploring now."
+  activePage="now"
+  canonicalPath="/now.html"
+>
+  <main id="main" class="route-page route-page--now">
+    <PageIntro
+      title="What has my attention?"
+      lede="A living page should say what is happening—and leave space for the parts that have not been shared."
+      index="NOW / THE OBSERVATORY"
+    />
+    <div class="route-body">
+      <section class="now-observation">
+        <p>Specific current activities, project names, and goals have not been supplied. This page keeps that distinction visible rather than turning a list of interests into a status report.</p>
+      </section>
+      <section aria-labelledby="now-register-title">
+        <div class="section-heading">
+          <h2 id="now-register-title">Current record</h2>
+          <p class="section-heading__note">Update only from verified, current information</p>
+        </div>
+        <dl class="now-index">
+          {updates.length > 0
+            ? updates.map(({ data }) => (
+              <>
+                <dt>{data.area}</dt>
+                <dd>
+                  {data.statusText}
+                  {data.updatedAt && <time datetime={data.updatedAt.toISOString()}>Updated {data.updatedAt.toLocaleDateString("en", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" })}</time>}
+                </dd>
+              </>
+            ))
+            : currentUpdates.map((item) => (
+              <>
+                <dt>{item.area}</dt><dd>{item.status}</dd>
+              </>
+            ))}
+        </dl>
+      </section>
+      <section class="now-interests" aria-labelledby="now-interests-title">
+        <h2 id="now-interests-title">The broader orbit</h2>
+        <p>These are supplied areas of interest, not claims about active work.</p>
+        <div class="interest-index">
+          {interests.map((group) => (
+            <section class="interest-row">
+              <h2>{group.area}</h2>
+              <ul class="topic-list">{group.topics.map((topic) => <li>{topic}</li>)}</ul>
+            </section>
+          ))}
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

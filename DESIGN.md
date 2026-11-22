@@ -51,7 +51,7 @@ The header opens a full-screen, responsive native dialog that presents seven rea
 
 Section routes have their own reading rhythm: About is a profile with visible evidence gaps; Work is a ruled project index; Research separates interests from public investigations; Writing uses a journal index and article reading layout; Now is a transparent current-state register; Contact is a quiet, high-contrast invitation. These layouts use shared typography, color, navigation, and spacing tokens rather than cloned landing-page sections.
 
-Project, investigation, and article detail routes are data-backed templates. Article pages support a linked contents list, calculated reading time, categories, tags, code blocks with token highlighting, images, references, and related entries. Data schemas and the future publishing/security boundary live in `CONTENT.md`.
+Project, investigation, experiment, and article detail routes are data-backed Astro templates. Markdown collections are validated at build time; article pages support a linked contents list, calculated reading time, categories, tags, syntax-highlighted code, images, references, and related entries. Data schemas and the future publishing/security boundary live in `CONTENT.md`; route and build details live in `ARCHITECTURE.md`.
 
 ## Accessibility
 

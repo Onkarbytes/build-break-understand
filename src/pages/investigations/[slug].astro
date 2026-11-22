@@ -1,0 +1,87 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection(
+    "investigations",
+    ({ data }) => data.public && ["published", "in-progress"].includes(data.status),
+  );
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+const description = data.seo?.description ?? data.summary;
+const publishedAt = data.publishedAt ?? data.date;
+---
+
+<BaseLayout
+  title={`${data.title} — Research — Onkar Tambake`}
+  description={description}
+  activePage="research"
+  mode="break"
+  ogType="article"
+  image={data.seo?.image}
+  canonicalPath={`/investigations/${entry.id}`}
+>
+  <main id="main" class="route-page route-page--detail">
+    <header class="detail-intro page-grid">
+      <div>
+        <h1 class="page-title">{data.title}</h1>
+        <p class="page-lede">{data.summary}</p>
+        <a class="text-link" href="/research.html">Back to the laboratory</a>
+      </div>
+    </header>
+    <dl class="detail-meta">
+      <dt>Status</dt><dd>{data.status === "in-progress" ? "In progress" : "Published"}</dd>
+      {publishedAt && <><dt>Published</dt><dd><time datetime={publishedAt.toISOString()}>{publishedAt.toLocaleDateString("en", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}</time></dd></>}
+      {data.disclosureStatus && <><dt>Disclosure</dt><dd>{data.disclosureStatus}</dd></>}
+      {data.topics.length > 0 && <><dt>Topics</dt><dd>{data.topics.join(" · ")}</dd></>}
+    </dl>
+    {data.methodology && <section class="detail-section"><h2>Methodology</h2><p>{data.methodology}</p></section>}
+    {data.technicalDetails && <section class="detail-section"><h2>Technical details</h2><p>{data.technicalDetails}</p></section>}
+    {data.diagrams.map((diagram) => (
+      <figure class="detail-figure">
+        <img src={diagram.src} alt={diagram.alt} loading="lazy" decoding="async" />
+        {diagram.caption && <figcaption>{diagram.caption}</figcaption>}
+      </figure>
+    ))}
+    {data.code.map((sample) => (
+      <section class="detail-section">
+        <h2>{sample.language} example</h2>
+        <pre class="code-frame"><code>{sample.code}</code></pre>
+      </section>
+    ))}
+    <article class="article-body detail-section">
+      <Content />
+    </article>
+    {data.findings.length > 0 && (
+      <section class="detail-section">
+        <h2>Findings</h2>
+        <ul class="detail-list">{data.findings.map((finding) => <li>{finding}</li>)}</ul>
+      </section>
+    )}
+    {data.limitations.length > 0 && (
+      <section class="detail-section">
+        <h2>Limitations</h2>
+        <ul class="detail-list">{data.limitations.map((limitation) => <li>{limitation}</li>)}</ul>
+      </section>
+    )}
+    {data.conclusion && <section class="detail-section"><h2>Conclusion</h2><p>{data.conclusion}</p></section>}
+    {data.references.length > 0 && (
+      <section class="detail-section">
+        <h2>References</h2>
+        <ul class="detail-list">
+          {data.references.map((reference) => (
+            <li>
+              {typeof reference === "string" ? reference : <a href={reference.url} target="_blank" rel="noopener noreferrer">{reference.title}</a>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+    {data.tags.length > 0 && <ul class="tag-list" aria-label="Investigation tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>}
+  </main>
+</BaseLayout>

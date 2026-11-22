@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+import ArchiveList from "../components/ArchiveList.astro";
+import EmptyState from "../components/EmptyState.astro";
+import PageIntro from "../components/PageIntro.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const projects = (await getCollection("projects", ({ data }) => data.public && data.status === "published"))
+  .sort((a, b) => (b.data.publishedAt ?? b.data.date ?? 0).valueOf() - (a.data.publishedAt ?? a.data.date ?? 0).valueOf());
+---
+
+<BaseLayout
+  title="Work — Onkar Tambake"
+  description="The workshop: verified engineering projects and reusable case-study records by Onkar Tambake."
+  activePage="work"
+  mode="build"
+  canonicalPath="/work.html"
+>
+  <main id="main" class="route-page route-page--work">
+    <PageIntro
+      title="The workshop."
+      lede="A project archive for things made, the decisions behind them, and what they taught. No placeholder projects dressed up as case studies."
+      index="WORK / CASE STUDIES"
+    />
+    <div class="route-body">
+      <section class="archive-intro">
+        <p>When a project is ready to share, its record can include the problem, architecture, tools, implementation notes, screenshots, source, demo, and lessons learned.</p>
+        <p class="archive-note">Private, employer-owned, or uncleared work does not belong in a public portfolio.</p>
+      </section>
+      <section aria-labelledby="projects-title">
+        <div class="section-heading">
+          <h2 id="projects-title">Project log</h2>
+          <p class="section-heading__note">Public work only</p>
+        </div>
+        {projects.length > 0 ? (
+          <ArchiveList entries={projects} baseHref="/projects" />
+        ) : (
+          <EmptyState
+            label="WORK / NOT PUBLISHED"
+            title="No case studies are public yet."
+            copy="Project details and outcomes were not supplied. This archive will list work only when it can be documented accurately and shared responsibly."
+          />
+        )}
+      </section>
+      <section class="template-fields" aria-labelledby="project-template-title">
+        <h2 id="project-template-title">A case study has room for context.</h2>
+        <ul class="field-index">
+          <li>Problem and constraints</li><li>Architecture and diagrams</li><li>Technology and implementation</li>
+          <li>Screenshots, source, or live demo</li><li>Trade-offs and lessons</li>
+        </ul>
+        <p>Published records use static project pages. The legacy <a href="/project.html">project entry route</a> remains available for old links.</p>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

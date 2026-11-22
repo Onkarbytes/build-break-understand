@@ -1,0 +1,4 @@
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=replace-with-the-project-anon-key
+SUPABASE_SERVICE_ROLE_KEY=replace-with-the-service-role-key
+CLOUDFLARE_DEPLOY_HOOK=https://api.cloudflare.com/client/v4/pages/webhooks/deploy_hooks/replace-with-hook-id

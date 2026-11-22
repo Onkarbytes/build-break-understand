@@ -1,57 +1,74 @@
-# Onkar Tambake — personal portfolio and research platform
+# Onkar Tambake — portfolio and research journal
 
-A responsive multi-page site built with static HTML, CSS, and vanilla JavaScript. No framework, package manager, or build step is required.
+The site is built with Astro and TypeScript and generates static files for Cloudflare Pages. The Astro migration preserves the original editorial design, independent `.html` section routes, BUILD / BREAK / UNDERSTAND home experience, interactive system map, and direct sun/moon theme control.
 
-## Run locally
+## Requirements and local development
 
-From this directory, run:
+- Node.js `>=22.23.4`
+- npm
 
 ```powershell
-python -m http.server 4173
+npm ci
+npm run dev
 ```
 
-Then open `http://localhost:4173`.
+Astro prints the local URL after startup. For production verification:
+
+```powershell
+npm run check
+npm test
+npm run build
+npm run preview
+```
+
+The static output is written to `dist`. Cloudflare Pages should run `npm run build` and publish `dist`.
 
 ## Routes
 
-- `index.html` — Home and interactive system map
-- `about.html` — About
-- `work.html` — Work archive
-- `research.html` — Research interests and investigation archive
-- `writing.html` — Article index
-- `now.html` — Current-information register
-- `contact.html` — Contact
-- `project.html?slug=...`, `investigation.html?slug=...`, `article.html?slug=...` — reusable detail routes
+| Route | Purpose |
+|---|---|
+| `/` | Home and interactive system map |
+| `/about.html` | About |
+| `/work.html` | Project archive |
+| `/research.html` | Research interests and investigations |
+| `/writing.html` | Article archive |
+| `/now.html` | Current-information register |
+| `/contact.html` | Contact |
+| `/projects/{slug}` | Project detail |
+| `/investigations/{slug}` | Investigation detail |
+| `/experiments/{slug}` | Experiment detail |
+| `/writing/{slug}` | Article detail |
 
-Every section page has its own editorial composition. Shared navigation, theme control, and footer are rendered from `site-shell.js`; the document-level appearance is set before styles render in `appearance-init.js`.
+The generic `/project.html`, `/investigation.html`, and `/article.html` routes remain as noindex legacy/unpublished states. Published content receives clean detail URLs.
 
-## Updating content
+## Content
 
-Edit `content.js` for projects, investigations, articles, research interests, and the Now register. Detail pages and archives render only records explicitly marked `public: true` and not in draft status. The profile does not invent an employment history, experience, credentials, achievements, contact address, or active projects. Current research topics are labelled as interests rather than completed work.
+Structured local Markdown lives in `src/content/`; the private publishing studio stores content in Supabase when configured. Collection schemas and validation are in `src/content.config.ts`, and `src/content/remote-loader.ts` reads only published rows at build time. Without Supabase configuration, the site falls back to local Markdown. `CMS_REQUIRED=true` makes a production build fail rather than silently ship local content when the CMS is unavailable.
 
-See [CONTENT.md](./CONTENT.md) for record fields, article block formats, publication states, and the secure future-CMS boundary. Do not add a frontend-only password gate or client-side write credentials.
+See [CONTENT.md](./CONTENT.md) for the frontmatter models, authoring workflow, and security limits. Do not add invented projects, findings, employment claims, credentials, contact details, or profile links.
 
-## Publishing workflow
+## Architecture and publishing
 
-There is no admin login or CMS in this build. Do not add a frontend-only password gate. If an integrated editor becomes necessary, see the recommendation in [research-and-environment-audit.md](./research-and-environment-audit.md): use a real authenticated headless CMS, structured content schemas, drafts and published states, and server-side validation for preview access.
+- [ARCHITECTURE.md](./ARCHITECTURE.md) documents the Astro/Cloudflare build, content flow, and security boundary.
+- [`/admin`](./src/pages/admin.astro) is the private publishing studio; [`/admin/login`](./src/pages/admin/login.astro) is the administrator sign-in.
+- [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) covers the schema, Auth, administrator allowlist, local configuration, and RLS tests.
+- [CLOUDFLARE_SETUP.md](./CLOUDFLARE_SETUP.md) covers Pages Functions, runtime secrets, rate limits, and the protected deploy hook.
+- [wrangler.toml](./wrangler.toml) configures the Pages output and publication rate limits. No production credentials are committed.
+- [MIGRATION_REPORT.md](./MIGRATION_REPORT.md) records the migration and verification.
+- [DESIGN.md](./DESIGN.md) documents the preserved visual system.
+- The admin experience requires a real Supabase project and administrator provisioned in the allowlist. It does not include public registration or fake credentials.
 
-## Implementation handoff
+Set `PUBLIC_SITE_URL` to the canonical production origin during a production build to emit canonical/Open Graph URLs and a sitemap. It must be an origin with no path, query, or fragment. For example, in PowerShell:
 
-- **Architecture:** independent root-level static HTML routes with shared shell JavaScript, an explicit content model, and reusable project/investigation/article detail templates.
-- **Visual direction:** editorial field journal, documented in [DESIGN.md](./DESIGN.md).
-- **Signature experience:** the home route retains BUILD, BREAK, and UNDERSTAND lenses, the interactive system map, and its direct/alternate path comparison. The icon-only sun/moon control toggles persistent light/night mode and follows the operating system until a visitor chooses a theme.
-- **Interactions:** full-screen route navigation, keyboard-operable map points, linked section archives, article table of contents, reading-time calculation, code token highlighting, article category/tag filters, and expandable field notes.
-- **Source research and environment audit:** [research-and-environment-audit.md](./research-and-environment-audit.md).
-- **Known content gaps:** no verified employment history or responsibilities, public projects, investigations, articles, current project details, email address, or professional profile URLs were supplied. These remain clearly marked as unpublished or unavailable.
-- **External resource:** display and body fonts are requested from Google Fonts, with local system fallback stacks.
-- **CMS:** no CMS, login, write endpoint, or fake authentication was added. The content contract and security requirements for a future server-authenticated CMS are documented in [CONTENT.md](./CONTENT.md).
-- **Original constraints:** the starting workspace contained only the previous static-site implementation and documentation, without assets, dependency manifests, or build configuration.
+```powershell
+$env:PUBLIC_SITE_URL = "https://your-domain.example"
+npm run build
+```
 
-## Verification
+No live domain was supplied; the example domain must be replaced before deployment. If the variable is omitted, the build intentionally omits canonical host URLs and the sitemap.
 
-- JavaScript syntax checked for all shared modules.
-- Browser smoke-tested all seven primary pages and three detail templates for route titles, shell, navigation, empty states, and overflow.
-- Tested persistent icon theme toggle, system-following default, mobile/desktop navigation, keyboard menu dismissal and focus return, the interactive map, practice modes, and reduced-motion behavior.
-- Checked responsive widths from 320 to 1440 pixels; no horizontal overflow or browser errors were observed.
-- Content integrity checks cover one page `h1`, unique IDs, valid local links, and explicit unavailable states for unpublished entries.
-- No production build is required by this dependency-free static architecture. No deployment target or live production URL was supplied.
+Copy `.env.example` for public build variables. Keep the Supabase service-role key and Cloudflare deploy-hook URL in protected Pages Function runtime secrets only; never put them in `PUBLIC_` variables or browser code. See [ADMIN_GUIDE.md](./ADMIN_GUIDE.md) for the editorial workflow.
+
+## Content still needed
+
+No verified employment history or responsibilities, public projects, investigations, articles, current project details, email address, or professional profile URLs were supplied. These remain absent or explicitly unpublished. The site requests display and body fonts from Google Fonts and uses local fallback stacks if that service is unavailable.

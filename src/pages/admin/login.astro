@@ -1,0 +1,29 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Sign in — Publishing studio">
+  <main id="main" class="login-shell" data-cms-login>
+    <section class="login-panel">
+      <p class="studio-eyebrow">PRIVATE / SINGLE-AUTHOR STUDIO</p>
+      <h1>Return to the work.</h1>
+      <p class="workspace-lede">Sign in with the administrator account configured for this site.</p>
+      <form class="login-form" data-login-form>
+        <label class="editor-field"><span>Email</span><input type="email" name="email" autocomplete="username" required /></label>
+        <label class="editor-field"><span>Password</span><input type="password" name="password" autocomplete="current-password" required /></label>
+        <button class="button button--primary" type="submit">Sign in</button>
+      </form>
+      <form class="login-form login-reset" data-recovery-form hidden>
+        <label class="editor-field"><span>New password</span><input type="password" name="password" autocomplete="new-password" minlength="12" required /></label>
+        <button class="button button--primary" type="submit">Set new password</button>
+      </form>
+      <button class="text-button login-reset-link" type="button" data-password-reset>Forgot your password?</button>
+      <p class="studio-alert login-message" data-login-message role="status" aria-live="polite" hidden></p>
+      <p class="login-boundary">Registration is disabled. Access is granted only to the administrator allowlist.</p>
+      <a class="studio-site-link" href="/">← Return to the public site</a>
+    </section>
+  </main>
+  <script>
+    import "../../scripts/admin.ts";
+  </script>
+</AdminLayout>

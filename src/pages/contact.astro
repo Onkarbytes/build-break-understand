@@ -1,0 +1,30 @@
+---
+import PageIntro from "../components/PageIntro.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Contact — Onkar Tambake"
+  description="Contact page for Onkar Tambake. Verified email and professional profile links will be added when supplied."
+  activePage="contact"
+  canonicalPath="/contact.html"
+>
+  <main id="main" class="route-page route-page--contact">
+    <PageIntro
+      title="Let’s compare notes."
+      lede="For a thoughtful question about engineering, security, research, or a system worth understanding."
+      index="CONTACT / OPEN CHANNEL"
+      variant="route-intro--contact"
+    />
+    <div class="route-body contact-body">
+      <section class="contact-card">
+        <p class="contact-card__lead">A good conversation starts with enough context to be useful.</p>
+        <div class="contact-card__detail">
+          <h2>Contact route</h2>
+          <p>A public email address and verified profile links were not included in the supplied information. No address or account has been guessed.</p>
+        </div>
+      </section>
+      <p class="contact-followup">When a verified destination is available, this page can link directly to it—without an unmonitored form or a fake submission flow.</p>
+    </div>
+  </main>
+</BaseLayout>

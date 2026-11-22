@@ -3,6 +3,8 @@
 **Audit date:** 2026-11-02  
 **Scope:** Read-only review of the static portfolio in this workspace. No application files were changed.
 
+> Historical audit of the pre-Astro static implementation. The framework, routes, and quality checks have since changed; use [MIGRATION_REPORT.md](./MIGRATION_REPORT.md) and [ARCHITECTURE.md](./ARCHITECTURE.md) for current implementation status.
+
 ## Executive assessment
 
 The site is a coherent, lightweight portfolio foundation, not a finished public portfolio. Its strongest work is the distinctive editorial identity, genuinely separate routes, the interactive system map, the persistent system/light/night appearance control, responsive layouts, and honest unpublished states. The empty archives and missing biography/contact details are not disguised as achievements.

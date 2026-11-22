@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+import ArchiveList from "../components/ArchiveList.astro";
+import EmptyState from "../components/EmptyState.astro";
+import PageIntro from "../components/PageIntro.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { interests } from "../content/profile";
+
+const investigations = (await getCollection(
+  "investigations",
+  ({ data }) => data.public && ["published", "in-progress"].includes(data.status),
+)).sort((a, b) => (b.data.publishedAt ?? b.data.date ?? 0).valueOf() - (a.data.publishedAt ?? a.data.date ?? 0).valueOf());
+const experiments = (await getCollection(
+  "experiments",
+  ({ data }) => data.public && ["published", "in-progress"].includes(data.status),
+)).sort((a, b) => (b.data.publishedAt ?? b.data.date ?? 0).valueOf() - (a.data.publishedAt ?? a.data.date ?? 0).valueOf());
+---
+
+<BaseLayout
+  title="Research — Onkar Tambake"
+  description="Research interests and published investigations in web security, AI security, adversarial machine learning, and systems."
+  activePage="research"
+  mode="break"
+  canonicalPath="/research.html"
+>
+  <main id="main" class="route-page route-page--research">
+    <PageIntro
+      title="Questions need evidence."
+      lede="A laboratory for careful investigation—not a claim that every question has already become a finding."
+      index="RESEARCH / THE LABORATORY"
+    />
+    <div class="route-body">
+      <section class="research-callout">
+        <p>Interest is a direction. An experiment is work in progress. A finding needs evidence, context, and a careful account of what was tested.</p>
+        <p class="archive-note">Only investigations explicitly marked public are listed below. No active or published investigation was supplied for this site.</p>
+      </section>
+      <section aria-labelledby="interest-title">
+        <div class="section-heading">
+          <h2 id="interest-title">Areas of interest</h2>
+          <p class="section-heading__note">Not findings or claims of completed work</p>
+        </div>
+        <div class="interest-index">
+          {interests.map((group) => (
+            <section class="interest-row">
+              <h2>{group.area}</h2>
+              <ul class="topic-list">{group.topics.map((topic) => <li>{topic}</li>)}</ul>
+            </section>
+          ))}
+        </div>
+      </section>
+      <section class="lab-log" aria-labelledby="lab-log-title">
+        <div class="section-heading">
+          <h2 id="lab-log-title">Investigation log</h2>
+          <p class="section-heading__note">Published and explicitly public in-progress work</p>
+        </div>
+        {investigations.length > 0 ? (
+          <ArchiveList entries={investigations} baseHref="/investigations" />
+        ) : (
+          <EmptyState
+            label="INVESTIGATIONS / NOT PUBLISHED"
+            title="No public investigations yet."
+            copy="Research interests are not presented as findings. An investigation will appear here only when its scope, status, and shareable evidence are ready."
+          />
+        )}
+      </section>
+      <section class="lab-log" aria-labelledby="experiments-title">
+        <div class="section-heading">
+          <h2 id="experiments-title">Experiments</h2>
+          <p class="section-heading__note">Work in progress is labelled as such</p>
+        </div>
+        {experiments.length > 0 ? (
+          <ArchiveList entries={experiments} baseHref="/experiments" />
+        ) : (
+          <EmptyState
+            label="EXPERIMENTS / NOT PUBLISHED"
+            title="No public experiments yet."
+            copy="No experiment records were supplied. Drafts remain outside the generated public site."
+          />
+        )}
+      </section>
+      <section class="template-fields" aria-labelledby="investigation-template-title">
+        <h2 id="investigation-template-title">A traceable record.</h2>
+        <ul class="field-index">
+          <li>Question, scope, and status</li><li>Methodology and technical detail</li>
+          <li>Diagrams or code with context</li><li>Findings, limitations, and conclusion</li><li>References</li>
+        </ul>
+        <p>Interests remain separate from work in progress and published conclusions.</p>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

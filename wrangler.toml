@@ -1,0 +1,20 @@
+"$schema" = "./node_modules/wrangler/config-schema.json"
+name = "build-break-understand"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-11-02"
+
+[[ratelimits]]
+name = "PUBLISH_IP_LIMITER"
+namespace_id = "2026110201"
+
+  [ratelimits.simple]
+  limit = 20
+  period = 60
+
+[[ratelimits]]
+name = "PUBLISH_USER_LIMITER"
+namespace_id = "2026110202"
+
+  [ratelimits.simple]
+  limit = 6
+  period = 60

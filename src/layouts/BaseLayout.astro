@@ -1,0 +1,76 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import "../styles/global.css";
+
+type ThemeMode = "build" | "break" | "understand";
+
+interface Props {
+  title: string;
+  description: string;
+  activePage: string;
+  mode?: ThemeMode;
+  ogType?: "website" | "article";
+  image?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  activePage,
+  mode = "understand",
+  ogType = "website",
+  image,
+  canonicalPath,
+  noindex = false,
+} = Astro.props;
+const canonicalUrl = Astro.site
+  ? new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href
+  : undefined;
+const socialImage = image
+  ? image.startsWith("https://")
+    ? image
+    : Astro.site
+      ? new URL(image, Astro.site).href
+      : undefined
+  : undefined;
+---
+
+<!doctype html>
+<html lang="en" data-mode={mode}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f2efe5" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    <title>{title}</title>
+    <script is:inline src="/scripts/appearance-init.js"></script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-page={activePage}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader activePage={activePage} />
+    <slot />
+    <SiteFooter />
+    <script is:inline src="/scripts/site-interactions.js"></script>
+  </body>
+</html>

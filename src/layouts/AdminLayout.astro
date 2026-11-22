@@ -1,0 +1,49 @@
+---
+import "../styles/global.css";
+import "../styles/admin.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Private publishing studio for Build. Break. Understand." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-mode="understand">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f2efe5" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <script is:inline src="/scripts/appearance-init.js"></script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="studio-body">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="studio-topbar">
+      <a class="studio-brand" href="/admin" aria-label="Build. Break. Understand. publishing studio">
+        <svg viewBox="0 0 42 42" aria-hidden="true"><path d="M21 3.5 38.5 21 21 38.5 3.5 21 21 3.5Z"></path><path d="M13 21h16M21 13v16"></path></svg>
+        <span><strong>Build. Break.</strong><strong>Understand.</strong></span>
+      </a>
+      <div class="studio-topbar__tools">
+        <a class="studio-site-link" href="/" target="_blank" rel="noopener noreferrer">View public site</a>
+        <button class="theme-toggle studio-theme-toggle" type="button" aria-label="Switch to night mode" title="Switch to night mode" data-theme-toggle>
+          <svg class="theme-toggle__sun" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.5"></circle><path d="M10 1.5v2M10 16.5v2M18.5 10h-2M3.5 10h-2m14.5-6-1.4 1.4M5.4 14.6 4 16m12 0-1.4-1.4M5.4 5.4 4 4"></path></svg>
+          <svg class="theme-toggle__moon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16.8 12.1A7.6 7.6 0 0 1 7.9 3.2a7.7 7.7 0 1 0 8.9 8.9Z"></path></svg>
+        </button>
+      </div>
+    </header>
+    <slot />
+    <script is:inline src="/scripts/site-interactions.js"></script>
+  </body>
+</html>

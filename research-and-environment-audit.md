@@ -1,5 +1,7 @@
 # Portfolio research and environment audit
 
+> Historical research and environment audit from before the Astro migration. Its descriptions of the initial workspace and implementation are not current; see [ARCHITECTURE.md](./ARCHITECTURE.md) and [MIGRATION_REPORT.md](./MIGRATION_REPORT.md).
+
 ## Environment audit
 
 The `D:\githubcopilot` workspace was empty and is not a Git repository. It contained no framework, routes, existing styles, assets, CMS, admin interface, deployment configuration, or dependency manifest to preserve. Node.js v24.22.1 and npm 11.19.1 are available. No dependencies were added; the portfolio is plain HTML, CSS, and JavaScript.

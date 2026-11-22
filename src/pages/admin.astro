@@ -1,0 +1,176 @@
+---
+import AdminLayout from "../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Publishing studio — Build. Break. Understand.">
+  <main id="main" class="studio-shell" data-cms-app>
+    <aside class="studio-sidebar" aria-label="Publishing studio">
+      <div class="studio-sidebar__identity">
+        <span class="studio-presence" aria-hidden="true"></span>
+        <span data-admin-email>Checking session…</span>
+      </div>
+      <nav class="studio-navigation" aria-label="Studio sections">
+        <a href="/admin?view=overview" data-studio-view="overview" aria-current="page"><span class="nav-mark" aria-hidden="true"></span>Overview</a>
+        <a href="/admin?view=article" data-studio-view="article"><span class="nav-mark" aria-hidden="true"></span>Writing</a>
+        <a href="/admin?view=project" data-studio-view="project"><span class="nav-mark" aria-hidden="true"></span>Projects</a>
+        <a href="/admin?view=research" data-studio-view="research"><span class="nav-mark" aria-hidden="true"></span>Research</a>
+        <a href="/admin?view=experiment" data-studio-view="experiment"><span class="nav-mark" aria-hidden="true"></span>Experiments</a>
+        <a href="/admin?view=now" data-studio-view="now"><span class="nav-mark" aria-hidden="true"></span>Now updates</a>
+        <a href="/admin?view=media" data-studio-view="media"><span class="nav-mark" aria-hidden="true"></span>Media library</a>
+        <a href="/admin?view=settings" data-studio-view="settings"><span class="nav-mark" aria-hidden="true"></span>Account</a>
+      </nav>
+      <div class="studio-sidebar__footer">
+        <p>One author. One careful record.</p>
+        <button class="studio-logout" type="button" data-logout>Log out</button>
+      </div>
+    </aside>
+
+    <section class="studio-workspace" aria-label="Content workspace">
+      <div class="studio-alert" data-studio-alert role="status" aria-live="polite" hidden></div>
+      <div class="local-preview-banner" id="local-preview-message" data-local-preview-banner hidden>
+        <span class="local-preview-banner__mark" aria-hidden="true"></span>
+        <strong>LOCAL PREVIEW</strong>
+        <span>Not connected to CMS. Drafts autosave in this browser; saving or publishing requires an authorized CMS account.</span>
+      </div>
+
+      <section class="studio-view" data-panel="overview">
+        <header class="workspace-heading">
+          <div><p class="studio-eyebrow">PRIVATE WORKSPACE / OVERVIEW</p><h1>Your publishing desk.</h1><p class="workspace-lede">A clear view of what is drafted, published, and ready for the next edit.</p></div>
+          <button class="button button--primary" type="button" data-new-entry>Create content</button>
+        </header>
+        <div class="studio-stats" aria-label="Content totals">
+          <div><span>Published</span><strong data-stat-published>—</strong></div>
+          <div><span>Drafts</span><strong data-stat-drafts>—</strong></div>
+          <div><span>Articles</span><strong data-stat-article>—</strong></div>
+          <div><span>Projects</span><strong data-stat-project>—</strong></div>
+          <div><span>Research</span><strong data-stat-research>—</strong></div>
+          <div><span>Experiments</span><strong data-stat-experiment>—</strong></div>
+          <div><span>Now updates</span><strong data-stat-now>—</strong></div>
+        </div>
+        <section class="studio-section">
+          <div class="section-heading"><h2>Recently edited</h2><a href="/admin?view=article" data-studio-view="article">Browse content</a></div>
+          <div class="studio-table-wrap"><table class="studio-table"><thead><tr><th scope="col">Title</th><th scope="col">Type</th><th scope="col">Status</th><th scope="col">Last edited</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead><tbody data-recent-rows></tbody></table></div>
+          <div class="studio-empty" data-overview-empty hidden><h3>No content yet.</h3><p>Create a draft when you are ready. Nothing is published until you choose to publish it.</p><button class="button button--secondary" type="button" data-new-entry>Create your first draft</button></div>
+        </section>
+        <section class="studio-section studio-publishing-note">
+          <span class="studio-publishing-note__glyph" aria-hidden="true">B.</span>
+          <div><h2>Publishing is deliberate.</h2><p data-publishing-note>Drafts stay in Supabase. Publishing asks a protected Cloudflare endpoint to build the public site; the public pages remain static.</p></div>
+        </section>
+      </section>
+
+      <section class="studio-view" data-panel="list" hidden>
+        <header class="workspace-heading">
+          <div><p class="studio-eyebrow" data-list-eyebrow>CONTENT / ALL</p><h1 data-list-title>Content library.</h1><p class="workspace-lede" data-list-description>Search, filter, and continue a piece of work.</p></div>
+          <button class="button button--primary" type="button" data-new-entry>Create content</button>
+        </header>
+        <div class="studio-filters">
+          <label class="studio-search"><span class="sr-only">Search content</span><input type="search" placeholder="Search title, excerpt, tags…" data-search /></label>
+          <label><span class="sr-only">Filter by status</span><select data-status-filter><option value="">All statuses</option><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></label>
+          <label><span class="sr-only">Sort entries</span><select data-sort><option value="updated">Last modified</option><option value="published">Recently published</option><option value="title">Title</option></select></label>
+        </div>
+        <div class="studio-table-wrap"><table class="studio-table"><thead><tr><th scope="col">Title</th><th scope="col">Status</th><th scope="col">Category</th><th scope="col">Last edited</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead><tbody data-content-rows></tbody></table></div>
+        <div class="studio-empty" data-list-empty hidden><h2>Nothing matches this view.</h2><p>Try a different search or filter, or create a new entry.</p><button class="button button--secondary" type="button" data-new-entry>Create content</button></div>
+      </section>
+
+      <section class="studio-view" data-panel="editor" hidden>
+        <header class="editor-heading">
+          <button class="text-button" type="button" data-back-to-list>← Back to content</button>
+          <div class="editor-heading__right">
+            <span class="save-indicator" data-save-state role="status">Saved</span>
+            <div class="editor-mode-switch" role="group" aria-label="Editor layout">
+              <button type="button" data-editor-mode="split" aria-pressed="true">Split</button>
+              <button type="button" data-editor-mode="edit" aria-pressed="false">Edit</button>
+              <button type="button" data-editor-mode="preview" aria-pressed="false">Preview</button>
+            </div>
+            <button class="button button--secondary" type="button" data-save>Save draft</button>
+            <button class="button button--primary" type="button" data-preview>Open preview</button>
+          </div>
+        </header>
+        <form class="entry-editor" data-entry-form novalidate>
+          <div class="entry-editor__main">
+            <label class="editor-title-label"><span class="sr-only">Title</span><input class="editor-title" name="title" maxlength="200" placeholder="Untitled" required /></label>
+            <div class="editor-slug"><span>/</span><input name="slug" aria-label="URL slug" maxlength="120" required /><button class="text-button" type="button" data-slug-refresh>Regenerate</button></div>
+            <label class="editor-field"><span>Excerpt</span><textarea name="excerpt" rows="2" maxlength="500" placeholder="A short introduction for the archive."></textarea></label>
+            <div class="editor-toolbar" aria-label="Markdown formatting">
+              <button type="button" data-format="bold" aria-label="Bold">B</button><button type="button" data-format="italic" aria-label="Italic"><em>I</em></button>
+              <button type="button" data-format="heading" aria-label="Heading">H2</button><button type="button" data-format="quote" aria-label="Blockquote">“</button>
+              <button type="button" data-format="unordered" aria-label="Bulleted list">• List</button><button type="button" data-format="ordered" aria-label="Numbered list">1. List</button>
+              <button type="button" data-format="inline-code" aria-label="Inline code">&lt;/&gt;</button><button type="button" data-format="code" aria-label="Code block">{ }</button>
+              <button type="button" data-format="link" aria-label="Link">Link</button><button type="button" data-format="image" aria-label="Image">Image</button>
+              <button type="button" data-format="table" aria-label="Table">Table</button><button type="button" data-format="rule" aria-label="Horizontal rule">Rule</button>
+              <button type="button" data-markdown-import>Import .md</button><input type="file" accept=".md,.markdown,text/markdown" data-markdown-import-file hidden />
+            </div>
+            <div class="editor-pane editor-pane--source" data-editor-pane="edit">
+              <div class="editor-codemirror" data-markdown-editor aria-label="Markdown editor"></div>
+            </div>
+            <section class="editor-pane editor-pane--preview" data-editor-pane="preview" aria-label="Live public page preview">
+              <div class="editor-preview" data-live-preview></div>
+            </section>
+            <div class="editor-footer"><span data-word-count>0 words · 1 min read</span><span data-editor-help>Markdown · Ctrl/⌘ + S saves to CMS when connected</span></div>
+          </div>
+          <aside class="entry-editor__details" aria-label="Entry details">
+            <label class="editor-field"><span>Content type</span><select name="content_type"><option value="article">Article / writing</option><option value="project">Project</option><option value="research">Research</option><option value="experiment">Experiment</option><option value="now">Now update</option></select></label>
+            <label class="editor-field"><span>Category</span><input name="category" maxlength="100" placeholder="Optional" /></label>
+            <label class="editor-field"><span>Tags</span><input name="tags" placeholder="Comma-separated" /></label>
+            <label class="editor-field"><span>Cover image reference</span><input name="cover_image_url" placeholder="Choose in Media library" /><button class="text-button" type="button" data-open-media>Choose media</button></label>
+            <label class="editor-field"><span>Cover image description</span><input name="cover_image_alt" maxlength="500" placeholder="Describe the image" /></label>
+            <label class="editor-field"><span>SEO title</span><input name="seo_title" maxlength="200" placeholder="Defaults to title" /></label>
+            <label class="editor-field"><span>SEO description</span><textarea name="seo_description" rows="3" maxlength="320" placeholder="Defaults to excerpt"></textarea></label>
+            <div class="type-metadata" data-type-metadata></div>
+            <label class="editor-field"><span>Structured metadata (JSON)</span><textarea name="metadata" rows="6" spellcheck="false">{}</textarea></label>
+            <div class="editor-actions"><button class="button button--secondary" type="button" data-duplicate>Duplicate draft</button><button class="button button--danger" type="button" data-delete>Delete</button><button class="button button--danger" type="button" data-local-discard hidden>Discard local draft</button></div>
+            <div class="editor-publish-actions"><button class="button button--primary" type="button" data-publish>Publish</button><button class="text-button" type="button" data-unpublish hidden>Unpublish</button><button class="text-button" type="button" data-archive>Archive</button></div>
+          </aside>
+        </form>
+      </section>
+
+      <section class="studio-view" data-panel="media" hidden>
+        <header class="workspace-heading"><div><p class="studio-eyebrow">ASSETS / PRIVATE STORAGE</p><h1>Media library.</h1><p class="workspace-lede">Uploads stay private until attached to content that is published.</p></div><label class="button button--primary upload-button">Upload image<input type="file" accept="image/jpeg,image/png,image/webp" data-upload hidden /></label></header>
+        <p class="media-policy">JPG, PNG, or WebP · 10 MB maximum · SVG and active formats are not accepted. Published images remain public after a post is unpublished; upload only cleared material.</p>
+        <div class="media-grid" data-media-grid></div>
+        <div class="studio-empty" data-media-empty hidden><h2>No uploaded media.</h2><p>Choose an image when you have a verified asset ready.</p></div>
+      </section>
+
+      <section class="studio-view" data-panel="settings" hidden>
+        <header class="workspace-heading"><div><p class="studio-eyebrow">ACCOUNT / SECURITY</p><h1>Account settings.</h1><p class="workspace-lede">Manage this administrator session and optional authenticator verification.</p></div></header>
+        <section class="studio-section studio-settings">
+          <h2>Authenticator (TOTP)</h2>
+          <p data-mfa-status>Checking authenticator status…</p>
+          <button class="button button--secondary" type="button" data-mfa-enroll>Set up authenticator</button>
+          <div class="mfa-setup" data-mfa-setup hidden>
+            <p>Scan the QR code in your authenticator app, then enter its six-digit code.</p>
+            <div data-mfa-qr-container></div>
+            <p class="mfa-secret" data-mfa-secret></p>
+            <form class="mfa-verify" data-mfa-form>
+              <label class="editor-field"><span>Verification code</span><input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required /></label>
+              <button class="button button--primary" type="submit">Verify and enable</button>
+            </form>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <dialog class="studio-dialog" data-create-dialog aria-labelledby="create-title">
+    <form class="studio-dialog__form" data-create-form>
+      <button class="dialog-close" type="button" aria-label="Close" data-create-close>×</button>
+      <p class="studio-eyebrow">NEW / DRAFT</p><h2 id="create-title">Start a new entry.</h2>
+      <label class="editor-field"><span>Content type</span><select name="content_type"><option value="article">Article / writing</option><option value="project">Project</option><option value="research">Research</option><option value="experiment">Experiment</option><option value="now">Now update</option></select></label>
+      <label class="editor-field"><span>Title</span><input name="title" maxlength="200" required autofocus /></label>
+      <label class="editor-field"><span>URL slug</span><input name="slug" maxlength="120" required /></label>
+      <p class="studio-alert" data-create-status role="status" aria-live="polite" hidden></p>
+      <div class="studio-dialog__actions"><button class="button button--secondary" type="button" data-create-close>Cancel</button><button class="button button--primary" type="submit">Create draft</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="studio-dialog studio-preview" data-preview-dialog aria-labelledby="preview-title">
+    <div class="studio-preview__header"><div><p class="studio-eyebrow">PRIVATE PREVIEW / NOT PUBLIC</p><h2 id="preview-title"></h2></div><button class="button button--secondary" type="button" data-preview-close>Close preview</button></div>
+    <p class="page-lede" data-preview-excerpt></p>
+    <div class="detail-meta" data-preview-meta hidden></div>
+    <article class="article-body studio-preview__body" data-preview-body></article>
+  </dialog>
+
+  <script>
+    import "../scripts/admin.ts";
+  </script>
+</AdminLayout>

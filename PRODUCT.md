@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Delegated for this greenfield build: static HTML, CSS, and JavaScript so the site stays deployable without a framework or build dependencies.
+Astro and TypeScript generate a static site for Cloudflare Pages. No CMS or runtime backend is part of this migration.
 
 ## Users
 
@@ -25,9 +25,9 @@ An independent engineer's record of building systems, investigating how they beh
 ## Capabilities and Constraints
 
 - Independent static routes exist for Home, About, Work, Research, Writing, Now, and Contact, with reusable project, investigation, and article detail routes.
-- The site uses a shared editorial shell and static, structured content records. It has no framework, build step, CMS, or administrator interface.
+- The site uses a shared Astro editorial shell and validated Markdown content collections. It builds to static files; there is no CMS, runtime backend, or administrator interface.
 - No project outcomes, publications, employment history, certifications, contact details, or social profiles were supplied. Do not invent them.
-- Content is intentionally easy to update in `content.js`; published entries require an explicit public flag. The content model and future CMS boundary are documented in `CONTENT.md`.
+- Content is intentionally separate from presentation in `src/content/` and `src/content.config.ts`; published entries require an explicit public flag and published status. The content model and future CMS boundary are documented in `CONTENT.md`.
 - Appearance follows the operating system by default and can be toggled directly between light and night themes with one icon button; the preference persists.
 
 ## Brand Commitments

@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection(
+    "experiments",
+    ({ data }) => data.public && ["published", "in-progress"].includes(data.status),
+  );
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+const description = data.seo?.description ?? data.summary;
+const publishedAt = data.publishedAt ?? data.date;
+---
+
+<BaseLayout
+  title={`${data.title} — Experiment — Onkar Tambake`}
+  description={description}
+  activePage="research"
+  mode="break"
+  ogType="article"
+  image={data.seo?.image}
+  canonicalPath={`/experiments/${entry.id}`}
+>
+  <main id="main" class="route-page route-page--detail">
+    <header class="detail-intro page-grid">
+      <div>
+        <h1 class="page-title">{data.title}</h1>
+        <p class="page-lede">{data.summary}</p>
+        <a class="text-link" href="/research.html">Back to the laboratory</a>
+      </div>
+    </header>
+    <dl class="detail-meta">
+      <dt>Status</dt><dd>{data.status === "in-progress" ? "In progress" : "Published"}</dd>
+      {publishedAt && <><dt>Published</dt><dd><time datetime={publishedAt.toISOString()}>{publishedAt.toLocaleDateString("en", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}</time></dd></>}
+      {data.category && <><dt>Area</dt><dd>{data.category}</dd></>}
+      {data.tags.length > 0 && <><dt>Tags</dt><dd>{data.tags.join(" · ")}</dd></>}
+    </dl>
+    {data.hypothesis && <section class="detail-section"><h2>Hypothesis</h2><p>{data.hypothesis}</p></section>}
+    {data.scope && <section class="detail-section"><h2>Scope</h2><p>{data.scope}</p></section>}
+    {data.methodology && <section class="detail-section"><h2>Methodology</h2><p>{data.methodology}</p></section>}
+    <article class="article-body detail-section">
+      <Content />
+    </article>
+    {data.observations.length > 0 && (
+      <section class="detail-section">
+        <h2>Observations</h2>
+        <ul class="detail-list">{data.observations.map((observation) => <li>{observation}</li>)}</ul>
+      </section>
+    )}
+    {data.limitations.length > 0 && (
+      <section class="detail-section">
+        <h2>Limitations</h2>
+        <ul class="detail-list">{data.limitations.map((limitation) => <li>{limitation}</li>)}</ul>
+      </section>
+    )}
+    {data.references.length > 0 && (
+      <section class="detail-section">
+        <h2>References</h2>
+        <ul class="detail-list">
+          {data.references.map((reference) => (
+            <li>
+              {typeof reference === "string" ? reference : <a href={reference.url} target="_blank" rel="noopener noreferrer">{reference.title}</a>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+    {data.tags.length > 0 && <ul class="tag-list" aria-label="Experiment tags">{data.tags.map((tag) => <li>{tag}</li>)}</ul>}
+  </main>
+</BaseLayout>

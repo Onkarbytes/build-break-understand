@@ -1,0 +1,75 @@
+---
+import { getCollection } from "astro:content";
+import ArchiveList from "../components/ArchiveList.astro";
+import EmptyState from "../components/EmptyState.astro";
+import PageIntro from "../components/PageIntro.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const articles = (await getCollection("articles", ({ data }) => data.public && data.status === "published"))
+  .sort((a, b) => (b.data.publishedAt ?? b.data.date ?? 0).valueOf() - (a.data.publishedAt ?? a.data.date ?? 0).valueOf());
+const categories = [...new Set(articles.map(({ data }) => data.category).filter((value): value is string => Boolean(value)))].sort();
+const tags = [...new Set(articles.flatMap(({ data }) => data.tags))].sort();
+const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+---
+
+<BaseLayout
+  title="Writing — Onkar Tambake"
+  description="A technical journal for clear explanations, research notes, and engineering writing by Onkar Tambake."
+  activePage="writing"
+  canonicalPath="/writing.html"
+>
+  <main id="main" class="route-page route-page--writing">
+    <PageIntro
+      title="Notes from the work."
+      lede="An editorial home for explanations, research notes, and the details worth keeping."
+      index="WRITING / THE JOURNAL"
+      variant="route-intro--writing"
+    />
+    <div class="route-body route-body--reading">
+      <p class="journal-principle">Good notes make the next investigation better.</p>
+      <section class="journal-index" aria-labelledby="journal-index-title">
+        <div class="section-heading">
+          <h2 id="journal-index-title">Published writing</h2>
+          <p class="section-heading__note">Only public articles appear here</p>
+        </div>
+        {articles.length > 0 && (categories.length > 1 || tags.length > 1) && (
+          <div class="article-filters" data-article-filters>
+            {categories.length > 1 && (
+              <label class="article-filter">
+                <span>Category</span>
+                <select aria-label="Filter articles by category" data-article-filter="category">
+                  <option value="">All categories</option>
+                  {categories.map((category) => <option value={slugify(category)}>{category}</option>)}
+                </select>
+              </label>
+            )}
+            {tags.length > 1 && (
+              <label class="article-filter">
+                <span>Tag</span>
+                <select aria-label="Filter articles by tag" data-article-filter="tag">
+                  <option value="">All tags</option>
+                  {tags.map((tag) => <option value={slugify(tag)}>{tag}</option>)}
+                </select>
+              </label>
+            )}
+            <p class="sr-only" role="status" aria-live="polite" data-article-filter-status></p>
+          </div>
+        )}
+        {articles.length > 0 ? (
+          <ArchiveList entries={articles} baseHref="/writing" includeReadingTime />
+        ) : (
+          <EmptyState
+            label="JOURNAL / NOT PUBLISHED"
+            title="No articles have been provided yet."
+            copy="The journal is ready for long-form notes, but nothing has been published. No sample post is presented as Onkar’s writing."
+          />
+        )}
+      </section>
+      <aside class="journal-format">
+        <h2>Built for reading.</h2>
+        <p>Article entries support categories, tags, calculated reading time, a linked contents list, long-form sections, code blocks with syntax accents, figures, references, and related articles.</p>
+        <p>The <a href="/article.html">legacy article detail route</a> remains available; published articles use clean static URLs.</p>
+      </aside>
+    </div>
+  </main>
+</BaseLayout>

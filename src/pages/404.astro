@@ -1,0 +1,35 @@
+---
+import PageIntro from "../components/PageIntro.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found — Onkar Tambake"
+  description="The requested page could not be found."
+  activePage="home"
+  canonicalPath="/404.html"
+  noindex
+>
+  <main id="main" class="route-page route-page--about">
+    <PageIntro
+      title="This route ends here."
+      lede="The page you followed may have moved, or it may not have been published."
+      index="NOT FOUND / 404"
+    />
+    <div class="route-body">
+      <div class="empty-record">
+        <span class="empty-record__mark" aria-hidden="true">404</span>
+        <div>
+          <h2>Find another path.</h2>
+          <p>Return to the home page or choose one of the public archive routes.</p>
+          <p>
+            <a class="text-link" href="/">Back to the start</a>
+            <a class="text-link" href="/work.html">View the work</a>
+            <a class="text-link" href="/writing.html">Open the journal</a>
+          </p>
+        </div>
+        <span class="empty-record__status">ROUTE NOT PUBLISHED</span>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

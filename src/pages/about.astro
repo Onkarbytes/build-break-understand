@@ -1,0 +1,58 @@
+---
+import PageIntro from "../components/PageIntro.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { interests } from "../content/profile";
+---
+
+<BaseLayout
+  title="About — Onkar Tambake"
+  description="About Onkar Tambake: engineering interests, working philosophy, and a profile grounded in verified information."
+  activePage="about"
+  canonicalPath="/about.html"
+>
+  <main id="main" class="route-page route-page--about">
+    <PageIntro
+      title="A little context."
+      lede="An engineer’s home for building, investigation, and technical notes—without turning interests into invented credentials."
+      index="ABOUT / THE ENGINEER"
+    />
+    <div class="route-body">
+      <section class="about-opening">
+        <p class="about-statement">Build what you’re curious about. Break it carefully. Understand what the result is telling you.</p>
+        <div class="about-copy">
+          <p>I’m Onkar Tambake. The information available for this site establishes my interests in security engineering, artificial intelligence, software architecture, and technical experimentation.</p>
+          <p>I don’t see building and investigation as separate practices. Making a system is one way to learn how it behaves; probing its edges is another. This is a place for the work and explanations that can be shared responsibly.</p>
+          <p>Specific experience and credentials are intentionally not listed until they can be verified and described accurately.</p>
+        </div>
+      </section>
+      <section class="profile-record" aria-labelledby="profile-title">
+        <h2 id="profile-title">A profile, with the gaps left visible.</h2>
+        <dl class="profile-facts">
+          <dt>Engineering background</dt><dd>Not shared yet</dd>
+          <dt>Professional journey</dt><dd>Not shared yet</dd>
+          <dt>Security engineering experience</dt><dd>Not shared yet</dd>
+          <dt>Current responsibilities</dt><dd>Not shared yet</dd>
+        </dl>
+        <p>Employer and project details should only be added when verified and cleared for public use.</p>
+      </section>
+      <section class="about-interests" aria-labelledby="about-interests-title">
+        <h2 id="about-interests-title">Questions I return to</h2>
+        <div class="interest-index">
+          {interests.map((group) => (
+            <section class="interest-row">
+              <h2>{group.area}</h2>
+              <ul class="topic-list">{group.topics.map((topic) => <li>{topic}</li>)}</ul>
+            </section>
+          ))}
+        </div>
+      </section>
+      <section class="about-principle">
+        <div>
+          <h2>A working principle</h2>
+          <p>A result is useful when you can explain what changed—and what the evidence does not tell you.</p>
+        </div>
+        <a class="text-link" href="/research.html">Follow the research questions</a>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

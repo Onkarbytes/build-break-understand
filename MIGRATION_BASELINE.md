@@ -1,5 +1,7 @@
 # Migration baseline
 
+This is a historical inventory of the original static-site implementation before the Astro migration. The old files are preserved in Git commit `23cd712`; the current source of truth is `src/`. See [ARCHITECTURE.md](./ARCHITECTURE.md) and [MIGRATION_REPORT.md](./MIGRATION_REPORT.md) for the migrated implementation and current verification.
+
 ## Snapshot
 
 - Original static-site baseline commit: `23cd712` (`chore: preserve original static website baseline`).
@@ -70,10 +72,10 @@ Open `http://localhost:4173/`. Press `Ctrl+C` in the server terminal to stop it.
 |---|---|
 | Shared head, fonts, pre-paint theme initialization, page shell | `src/layouts/BaseLayout.astro` |
 | Header and native route dialog; footer and note | `src/components/SiteHeader.astro`, `src/components/SiteFooter.astro` |
-| Global tokens, theme variants, existing responsive styling | `src/styles/global.css` (moved without redesign) |
-| Theme initialization and interaction handlers | `public/scripts/` initially, then modular `src/scripts/` where useful |
-| Home/section/detail HTML | `src/pages/index.astro` and `.html.astro` route files to preserve existing URLs |
-| Content data and future typed validation | `src/content/` and Astro content schemas; no fabricated entries |
-| Published detail records | Static per-entry Astro routes with per-record metadata; retain legacy `.html` template routes for backward compatibility |
+| Global tokens, theme variants, responsive styling | `src/styles/global.css` |
+| Theme initialization and interaction handlers | `public/scripts/appearance-init.js`, `public/scripts/site-interactions.js` |
+| Home/section/detail templates | `src/pages/*.astro`; `build.format: "file"` preserves `.html` section URLs without `.html.astro` source filenames |
+| Content data and validation | Markdown in `src/content/`, Astro collection schemas in `src/content.config.ts`, profile data in `src/content/profile.ts` |
+| Published detail records | Static collection routes with per-record metadata and clean canonical paths; generic `.html` templates remain noindex |
 
-The migration baseline is a preservation record, not a second content source. Future content schemas must distinguish drafts from public data, validate each content category, and allow unique detail URLs and metadata without introducing a public Supabase dependency.
+The root-level HTML/CSS/JavaScript inventory above describes the historical baseline only; it is not an active second content source. The migration baseline is a preservation record, not a deployment source.
